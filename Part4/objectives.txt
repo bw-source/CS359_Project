@@ -1,0 +1,5 @@
+• Write SQL statements to conduct database manipulation including Creating, Reading, Updating, 
+and Deletion (CRUD). 
+• Write an interactive application to manage a database by considering possible database 
+operations.  
+• Practice teamwork skills.
