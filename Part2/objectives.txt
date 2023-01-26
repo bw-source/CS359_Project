@@ -1,0 +1,4 @@
+• Write SQL DDL statements to create tables and constraints.  
+• Write SQL DML statements to insert data to a database.  
+• Run SQL statements from a script file with batch of SQL statements.  
+• Practice teamwork skills.
