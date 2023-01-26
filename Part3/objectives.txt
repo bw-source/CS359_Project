@@ -1,0 +1,3 @@
+• Write SQL statements to conduct database searches.  
+• Practice calling SQL language from an application language (Python). 
+• Practice teamwork skills. 
