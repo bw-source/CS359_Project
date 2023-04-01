@@ -1,3 +1,10 @@
+#*******************************************************************************
+#   CS359 Project Part 3
+#   File: proj.py
+#
+#   Notes:
+#********************************************************************************
+
 import sqlite3
 from sqlite3 import Error
 
@@ -35,27 +42,31 @@ def main():
     database = r"proj3db.sqlite"
 
     sql_create_Video_table = """ CREATE TABLE IF NOT EXISTS Video (
-                                        videoCode integer PRIMARY KEY NOT NULL,
-                                        videoLength integer NOT NULL
+                                        videoCode       integer PRIMARY KEY NOT NULL,
+                                        videoLength     integer NOT NULL
                                     ); """
-
     sql_create_Model_table = """ CREATE TABLE IF NOT EXISTS Model (
-                                        modelNO varchar(10) PRIMARY KEY NOT NULL,
-                                        width numeric(6,2),
-                                        height numeric(6,2),
-                                        weight numeric(6,2),
-                                        depth numeric(6,2),
-                                        screensize numeric(6,2)
+                                        modelNO         varchar(10) PRIMARY KEY NOT NULL,
+                                        width           numeric(6,2),
+                                        height          numeric(6,2),
+                                        weight          numeric(6,2),
+                                        depth           numeric(6,2),
+                                        screensize      numeric(6,2)
                                     ); """
-
     sql_create_Site_table = """ CREATE TABLE IF NOT EXISTS Site (
-                                        siteCode integer PRIMARY KEY NOT NULL, 
-                                        type varchar(16), 
-                                        address varchar(100),
-                                        phone varchar(16),
-                                        site_type CHECK (type = 'bar'or type ='restaurant')
+                                        siteCode        integer PRIMARY KEY NOT NULL, 
+                                        type            varchar(16), 
+                                        address         varchar(100),
+                                        phone           varchar(16),
+                                        site_type       CHECK (type = 'bar'or type ='restaurant')
                                     ); """
-
+    sql_create_DigitalDisplay_table = """ CREATE TABLE IF NOT EXISTS DigitalDisplay (
+                                        serialNo        char(10) PRIMARY KEY NOT NULL,
+                                        schedulerSystem char(10),
+                                        modelNo         char(10),
+                                        ss              CHECK (schedulerSystem = 'Random'or schedulerSystem ='Smart' or schedulerSystem ='Virtue'),
+                                        FOREIGN KEY     (modelNo) REFERENCES Model (modelNo)
+                                    ); """
     # create a database connection
     conn = create_connection(database)
 
@@ -67,6 +78,8 @@ def main():
         create_table(conn,sql_create_Model_table)
         # create Site table
         create_table(conn,sql_create_Site_table)
+        # create DigitalDisplay table
+        create_table(conn,sql_create_DigitalDisplay_table)
 
     else:
         print("Error! cannot create the database connection.")
