@@ -39,7 +39,14 @@ def main():
                                         videoLength integer NOT NULL
                                     ); """
 
-
+    sql_create_Model_table = """ CREATE TABLE IF NOT EXISTS Model (
+                                        modelNO varchar(10) PRIMARY KEY NOT NULL,
+                                        width numeric(6,2),
+                                        height numeric(6,2),
+                                        weight numeric(6,2),
+                                        depth numeric(6,2),
+                                        screensize numeric(6,2)
+                                    ); """
 
     # create a database connection
     conn = create_connection(database)
@@ -48,6 +55,8 @@ def main():
     if conn is not None:
         # create Video table
         create_table(conn, sql_create_Video_table)
+        # create Model table
+        create_table(conn,sql_create_Model_table)
 
     else:
         print("Error! cannot create the database connection.")
