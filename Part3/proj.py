@@ -95,7 +95,7 @@ def main():
                                         lastDate        date,
                                         frequency       int,
                                         videoCode       int,
-                                        CHECK (class ='economy'or class='whole day' or class ='golden hours')
+                                        CHECK (class ='economy' or class='whole day' or class ='golden hours')
                                     ); """
     sql_create_AdmWorkHours_table = """ CREATE TABLE IF NOT EXISTS AdmWorkHours (
                                         empID           integer NOT NULL,
@@ -104,6 +104,36 @@ def main():
                                         PRIMARY KEY     (empID, day),
                                         FOREIGN KEY     (empId) REFERENCES Administrator (empId)
                                     ); """
+    sql_create_Broadcasts_table =   """ CREATE TABLE IF NOT EXISTS Broadcasts (
+                                        videoCode       integer NOT NULL,
+                                        siteCode        int NOT NULL,
+                                        PRIMARY KEY     (videoCode, siteCode),
+                                        FOREIGN KEY     (videoCode) REFERENCES Video (videoCode),
+                                        FOREIGN KEY     (siteCode)  REFERENCES Site (siteCode)
+                                    ); """
+    sql_create_Administers_table =  """ CREATE TABLE IF NOT EXISTS Administers (
+                                        empId           integer NOT NULL, 
+                                        siteCode        integer NOT NULL,
+                                        PRIMARY KEY     (empId, siteCode),
+                                        FOREIGN KEY     (empId)     REFERENCES Administrator (empId),
+                                        FOREIGN KEY     (siteCode)  REFERENCES Site (siteCode)
+                                    ); """
+    sql_create_Specializes_table =  """ CREATE TABLE IF NOT EXISTS Specializes (
+                                        empId           integer NOT NULL,
+                                        modelNo         char NOT NULL,
+                                        PRIMARY KEY     (empId, modelNo),
+                                        FOREIGN KEY     (empId)     REFERENCES TechnicalSupport (empId),
+                                        FOREIGN KEY     (modelNo)   REFERENCES Model (modelNo)
+                                    ); """
+    sql_create_Purchases_table =    """ CREATE TABLE IF NOT EXISTS Purchases (
+                                        clientId        integer NOT NULL,
+                                        empId           integer NOT NULL,
+                                        packageId       integer NOT NULL,
+                                        commisionRate   numeric(4,2),
+                                        PRIMARY KEY     (clientId, empId, packageId),
+                                        FOREIGN KEY     (empId)     REFERENCES Salesman (empId),
+                                        FOREIGN KEY     (packageId) REFERENCES AirtimePackage (packageId)
+                                    ); """    
 # create a database connection
     conn = create_connection(database)
 
@@ -129,6 +159,14 @@ def main():
         create_table(conn,sql_create_AirtimePackage_table)
         # create AdmWorkHours table
         create_table(conn,sql_create_AdmWorkHours_table)
+        # create Broadcasts table
+        create_table(conn,sql_create_Broadcasts_table)
+        # create Administraters table
+        create_table(conn,sql_create_Administers_table)
+        # create Specializes table
+        create_table(conn,sql_create_Specializes_table)
+        # create Purchases table
+        create_table(conn,sql_create_Purchases_table)
     else:
         print("Error! cannot create the database connection.")
 
