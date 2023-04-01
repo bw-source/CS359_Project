@@ -74,19 +74,28 @@ def main():
                                         address         varchar(100)
                                     ); """
     sql_create_TechnicalSupport_table = """ CREATE TABLE IF NOT EXISTS TechnicalSupport (
-                                        empId   integer PRIMARY KEY NOT NULL,
-                                        name    varchar(40),
-                                        gender  char(1)
+                                        empId           integer PRIMARY KEY NOT NULL,
+                                        name            varchar(40),
+                                        gender          char(1)
                                     ); """
     sql_create_Administrator_table = """ CREATE TABLE IF NOT EXISTS Administrator (
-                                        empId   integer PRIMARY KEY NOT NULL,
-                                        name    varchar(40),
-                                        gender  char(1)
+                                        empId           integer PRIMARY KEY NOT NULL,
+                                        name            varchar(40),
+                                        gender          char(1)
                                     ); """
     sql_create_Salesman_table =     """ CREATE TABLE IF NOT EXISTS Salesman (
-                                        empId   integer PRIMARY KEY NOT NULL,
-                                        name    varchar(40),
-                                        gender  char(1)
+                                        empId           integer PRIMARY KEY NOT NULL,
+                                        name            varchar(40),
+                                        gender          char(1)
+                                    ); """
+    sql_create_AirtimePackage_table = """ CREATE TABLE IF NOT EXISTS AirtimePackage (
+                                        packageId       integer PRIMARY KEY NOT NULL,
+                                        class           varchar(16),
+                                        startDate       date,
+                                        lastDate        date,
+                                        frequency       int,
+                                        videoCode       int,
+                                        at_class        CHECK (class ='economy'or class='whole day' or class ='golden hours')
                                     ); """
 
 # create a database connection
@@ -110,6 +119,8 @@ def main():
         create_table(conn,sql_create_Administrator_table)
         # create Salesman table
         create_table(conn,sql_create_Salesman_table)
+        # create AirtimePackage table
+        create_table(conn,sql_create_AirtimePackage_table)
 
     else:
         print("Error! cannot create the database connection.")
