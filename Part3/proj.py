@@ -74,10 +74,21 @@ def main():
                                         address         varchar(100)
                                     ); """
     sql_create_TechnicalSupport_table = """ CREATE TABLE IF NOT EXISTS TechnicalSupport (
-                                        empId   integer NOT NULL,
+                                        empId   integer PRIMARY KEY NOT NULL,
                                         name    varchar(40),
                                         gender  char(1)
                                     ); """
+    sql_create_Administrator_table = """ CREATE TABLE IF NOT EXISTS Administrator (
+                                        empId   integer PRIMARY KEY NOT NULL,
+                                        name    varchar(40),
+                                        gender  char(1)
+                                    ); """
+    sql_create_Salesman_table =     """ CREATE TABLE IF NOT EXISTS Salesman (
+                                        empId   integer PRIMARY KEY NOT NULL,
+                                        name    varchar(40),
+                                        gender  char(1)
+                                    ); """
+
 # create a database connection
     conn = create_connection(database)
 
@@ -95,6 +106,10 @@ def main():
         create_table(conn,sql_create_Client_table)
         # create TechnicalSupport table
         create_table(conn,sql_create_TechnicalSupport_table)
+        # create Administrator table
+        create_table(conn,sql_create_Administrator_table)
+        # create Salesman table
+        create_table(conn,sql_create_Salesman_table)
 
     else:
         print("Error! cannot create the database connection.")
