@@ -58,13 +58,13 @@ def main():
                                         type            varchar(16), 
                                         address         varchar(100),
                                         phone           varchar(16),
-                                        CHECK (type = 'bar'or type ='restaurant')
+                                        CHECK           (type = 'bar'OR type ='restaurant')
                                     ); """
     sql_create_DigitalDisplay_table = """ CREATE TABLE IF NOT EXISTS DigitalDisplay (
                                         serialNo        char(10) PRIMARY KEY NOT NULL,
                                         schedulerSystem char(10),
                                         modelNo         char(10),
-                                        CHECK (schedulerSystem = 'Random'or schedulerSystem ='Smart' or schedulerSystem ='Virtue'),
+                                        CHECK           (schedulerSystem = 'Random' OR schedulerSystem = 'Smart' OR schedulerSystem = 'Virtue'),
                                         FOREIGN KEY     (modelNo) REFERENCES Model (modelNo)
                                     ); """
     sql_create_Client_table =       """ CREATE TABLE IF NOT EXISTS Client (
@@ -95,7 +95,7 @@ def main():
                                         lastDate        date,
                                         frequency       int,
                                         videoCode       int,
-                                        CHECK (class ='economy' or class='whole day' or class ='golden hours')
+                                        CHECK           (class = 'economy' OR class= 'whole day' OR class = 'golden hours')
                                     ); """
     sql_create_AdmWorkHours_table = """ CREATE TABLE IF NOT EXISTS AdmWorkHours (
                                         empID           integer NOT NULL,
