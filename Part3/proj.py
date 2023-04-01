@@ -97,7 +97,13 @@ def main():
                                         videoCode       int,
                                         at_class        CHECK (class ='economy'or class='whole day' or class ='golden hours')
                                     ); """
-
+    sql_create_AdmWorkHours_table = """ CREATE TABLE IF NOT EXISTS AdmWorkHours (
+                                        empID           integer NOT NULL,
+                                        day             date NOT NULL,
+                                        hours           numeric(4,2),
+                                        PRIMARY KEY     (empID, day),
+                                        FOREIGN KEY     (empId) REFERENCES Administrator (empId)
+                                    ); """
 # create a database connection
     conn = create_connection(database)
 
@@ -121,7 +127,8 @@ def main():
         create_table(conn,sql_create_Salesman_table)
         # create AirtimePackage table
         create_table(conn,sql_create_AirtimePackage_table)
-
+        # create AdmWorkHours table
+        create_table(conn,sql_create_AdmWorkHours_table)
     else:
         print("Error! cannot create the database connection.")
 
