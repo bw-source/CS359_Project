@@ -48,6 +48,14 @@ def main():
                                         screensize numeric(6,2)
                                     ); """
 
+    sql_create_Site_table = """ CREATE TABLE IF NOT EXISTS Site (
+                                        siteCode integer PRIMARY KEY NOT NULL, 
+                                        type varchar(16), 
+                                        address varchar(100),
+                                        phone varchar(16),
+                                        site_type CHECK (type = 'bar'or type ='restaurant')
+                                    ); """
+
     # create a database connection
     conn = create_connection(database)
 
@@ -57,6 +65,8 @@ def main():
         create_table(conn, sql_create_Video_table)
         # create Model table
         create_table(conn,sql_create_Model_table)
+        # create Site table
+        create_table(conn,sql_create_Site_table)
 
     else:
         print("Error! cannot create the database connection.")
