@@ -133,7 +133,14 @@ def main():
                                         PRIMARY KEY     (clientId, empId, packageId),
                                         FOREIGN KEY     (empId)     REFERENCES Salesman (empId),
                                         FOREIGN KEY     (packageId) REFERENCES AirtimePackage (packageId)
-                                    ); """    
+                                    ); """ 
+    sql_create_Locates_table =      """ CREATE TABLE IF NOT EXISTS Locates (
+                                        serialNo        char(10) NOT NULL,
+                                        siteCode        integer NOT NULL,
+                                        PRIMARY KEY     (serialNo, siteCode),
+                                        FOREIGN KEY     (serialNo)  REFERENCES DigitalDisplay (serialNo),
+                                        FOREIGN KEY     (siteCode)  REFERENCES Site (siteCode)
+                                    ); """       
 # create a database connection
     conn = create_connection(database)
 
@@ -167,6 +174,9 @@ def main():
         create_table(conn,sql_create_Specializes_table)
         # create Purchases table
         create_table(conn,sql_create_Purchases_table)
+        # create Locates table
+        create_table(conn,sql_create_Locates_table)
+
     else:
         print("Error! cannot create the database connection.")
 
