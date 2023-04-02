@@ -194,12 +194,84 @@ def insert_data():
                     ('ABC4K55', 48.80, 28.40, 39.20, 3.89, 55.00),
                     ('ABC4K60', 53.27, 32.18, 48.23, 4.21, 60.00)]
     cursor.executemany("INSERT INTO Model(modelNo, width, height, weight, depth, screenSize) VALUES(?,?,?,?,?,?)", modelColumns)
-    siteColumns = [(23, 'Bar', '34 N 56th St Phoenix, AZ 85013', '480-555-9623'),
+    siteColumns = [(23, 'Bar', '34 N 56th St, Phoenix, AZ 85013', '480-555-9623'),
                    (14, 'Restaurant', '12543 N Victory Blvd, Van Nuys, CA 91404', '818-555-0945'),
-                   (65, 'Ice Arena', '6523 E. Katella Blvd, Anaheim, CA 92805', '714-555-5423'),
-                   (46, 'Shopping Mall', '876 MacArthur Dr, Tempe, AZ 85284', '480-555-2765'),
-                   (54, 'Casino', '2876 Sahara Blvd, Las Vegas, NV 89127', '702-555-8723' )]
+                   (65, 'Restaurant', '6523 E Katella Blvd, Anaheim, CA 92805', '714-555-5423'),
+                   (46, 'Bar', '876 MacArthur Dr, Tempe, AZ 85284', '480-555-2765'),
+                   (54, 'Bar', '2876 Sahara Blvd, Las Vegas, NV 89127', '702-555-8723')]
     cursor.executemany("INSERT INTO Site(siteCode, type, address, phone) VALUES(?,?,?,?)", siteColumns)
+    digitalDisplayColumns = [('1467367200', 'Virtue', 'ABC4K32'),
+                             ('5265360807', 'Random', 'ABC4K50'),
+                             ('6083450383', 'Random', 'ABC4K60'),
+                             ('9154677989', 'Smart','ABC4K40'),
+                             ('1696599316', 'Virtue', 'ABC4K55')]
+    cursor.executemany("INSERT INTO DigitalDisplay(serialNo, schedulerSystem, modelNo) VALUES(?,?,?)", digitalDisplayColumns)
+    clientColumns = [(56, 'Roberto Martinez', '480-555-0978', '2765 W Mesa Blvd, Tempe, AZ 85284'),
+                     (51, 'Colby Butler', '505-555-4321', '654 Ocean Dr, Ventura, CA 93003'),
+                     (21, 'Morton Bush', '702-555-1543', '10231 Desert Vista Blvd 89128'),
+                     (12, 'Laura Hunnisett', '909-555-2765', '1532 Jackrabbit Ln, 92502'),
+                     (65, 'Randell Simonson', '480-555-2134', '654 Cactus Flower Dr, 85283')]
+    cursor.executemany("INSERT INTO Client(clientId, name, phone, address) VALUES(?,?,?,?)", clientColumns)
+    technicalSupportColumns = [(76, 'Allison Wright', 'F'),
+                               (22, 'Louise Joiner', 'F'),
+                               (89, 'Charnette San Nicolás', 'F'),
+                               (26, 'Arlo White', 'M'),
+                               (78, 'Ivan Alberto', 'M')]
+    cursor.executemany("INSERT INTO TechnicalSupport(empId, name, gender) VALUES(?,?,?)", technicalSupportColumns)
+    administratorColumns = [(7, 'Irene Candelaria', 'F'),
+                            (43, 'Jannette Carter', 'F'),
+                            (11, 'Kailey Trueman', 'F'),
+                            (64, 'Cash Heath', 'M'),
+                            (24, 'Kaden Iñíguez', 'M')]
+    cursor.executemany("INSERT INTO Administrator(empId, name, gender) VALUES(?,?,?)", administratorColumns)
+    salesmanColumns = [(25, 'Frank Castenello', 'M'),
+                       (26, 'Merton Toledano', 'M'),
+                       (98, 'Tooru Ybarra', 'M'),
+                       (12, 'Lester Gutierrez', 'M'),
+                       (87, 'Ulyssa Yoshida', 'F')]
+    cursor.executemany("INSERT INTO Salesman(empId, name, gender) VALUES(?,?,?)", salesmanColumns)
+    airtimePckgColumns = [('3', 'Economy', '2023-01-01', '2025-12-31', 60, 321),
+                          ('1', 'Whole Day', '2022-04-15', '2025-1-1', 120, 823),
+                          ('2', 'Economy', '2022-12-01', '2025-11-31', 60, 567),
+                          ('4', 'Golden Hours', '2020-01-01', '2026-12-31', 180, 356),
+                          ('5', 'Whole Day', '2021-01-01', '2024-12-31', 120, 231)]
+    cursor.executemany("INSERT INTO AirtimePackage(packageID, class, startDate, lastDate, frequency, videoCode) VALUES(?,?,?,?,?,?)", airtimePckgColumns)
+    admWorkHoursColumns = [(7, '2023-02-14', 8.75),
+                           (26, '2022-12-23', 9.75),
+                           (87, '2023-12-12', 7.00),
+                           (43, '2022-11-23', 10.25),
+                           (11, '2023-03-01', 8.25)]
+    cursor.executemany("INSERT INTO AdmWorkHours(empId, day, hours) VALUES(?,?,?)", admWorkHoursColumns)
+    broadcastsColumns = [(823, 23),
+                         (321, 14),
+                         (356, 65),
+                         (567, 54),
+                         (231, 46)]
+    cursor.executemany("INSERT INTO Broadcasts(videoCode, siteCode) VALUES(?,?)", broadcastsColumns)
+    administersColumns = [(7, 23),
+                          (64, 54),
+                          (24, 14),
+                          (43, 65),
+                          (11, 46)]
+    cursor.executemany("INSERT INTO Administers(empId, siteCode) VALUES(?,?)", administersColumns)
+    specializesColumns = [(76, 'ABC4K32'),
+                          (22, 'ABC4K32'),
+                          (78, 'ABC4K50'),
+                          (89, 'ABC4K55'),
+                          (26, 'ABC4K50')]
+    cursor.executemany("INSERT INTO Specializes(empId, modelNo) VALUES(?,?)", specializesColumns)
+    purchasesColumns = [(56, 25, 1, 6.25),
+                        (51, 25, 4, 7),
+                        (12, 87, 3, 5.75),
+                        (65, 12, 1, 3.5),
+                        (21, 98, 2, 10.5)]
+    cursor.executemany("INSERT INTO Purchases(clientId, empId, packageId, commissionRate) VALUES(?,?,?,?)", purchasesColumns)
+    locatesColumns = [('1467367200', 23),
+                      ('5265360807', 54),
+                      ('1696599316', 65),
+                      ('6083450383', 46),
+                      ('9154677989', 14)]
+    cursor.executemany("INSERT INTO Locates(serialNo, siteCode) VALUES(?,?)", locatesColumns)
     conn.commit()
 
 
