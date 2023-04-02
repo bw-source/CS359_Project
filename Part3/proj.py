@@ -57,7 +57,7 @@ def create_project_tables(db_file):
                                         type            varchar(16), 
                                         address         varchar(100),
                                         phone           varchar(16),
-                                        CHECK           (type = 'bar'OR type ='restaurant')
+                                        CHECK           (type = 'Bar'OR type ='Restaurant')
                                     ); """
     sql_create_DigitalDisplay_table = """ CREATE TABLE IF NOT EXISTS DigitalDisplay (
                                         serialNo        char(10) PRIMARY KEY NOT NULL,
@@ -94,7 +94,7 @@ def create_project_tables(db_file):
                                         lastDate        date,
                                         frequency       int,
                                         videoCode       int,
-                                        CHECK           (class = 'economy' OR class= 'whole day' OR class = 'golden hours')
+                                        CHECK           (class = 'Economy' OR class= 'Whole day' OR class = 'Golden Hours')
                                     ); """
     sql_create_AdmWorkHours_table = """ CREATE TABLE IF NOT EXISTS AdmWorkHours (
                                         empID           integer NOT NULL,
@@ -128,7 +128,7 @@ def create_project_tables(db_file):
                                         clientId        integer NOT NULL,
                                         empId           integer NOT NULL,
                                         packageId       integer NOT NULL,
-                                        commisionRate   numeric(4,2),
+                                        commissionRate   numeric(4,2),
                                         PRIMARY KEY     (clientId, empId, packageId),
                                         FOREIGN KEY     (empId)     REFERENCES Salesman (empId),
                                         FOREIGN KEY     (packageId) REFERENCES AirtimePackage (packageId)
