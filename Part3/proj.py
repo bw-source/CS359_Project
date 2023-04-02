@@ -94,7 +94,7 @@ def create_project_tables(db_file):
                                         lastDate        date,
                                         frequency       int,
                                         videoCode       int,
-                                        CHECK           (class = 'Economy' OR class= 'Whole day' OR class = 'Golden Hours')
+                                        CHECK           (class = 'economy' OR class= 'whole day' OR class = 'golden hours')
                                     ); """
     sql_create_AdmWorkHours_table = """ CREATE TABLE IF NOT EXISTS AdmWorkHours (
                                         empID           integer NOT NULL,
@@ -179,9 +179,10 @@ def create_project_tables(db_file):
     else:
         print("Error! cannot create the database connection.")
         
-def insert_data():
-    conn = sqlite3.connect(r"proj3db.sqlite")
+def insert_data(db_file):
+    conn = create_connection(db_file)
     cursor = conn.cursor()
+
     videoColumns = [(567, 92),
                     (823, 34),
                     (231, 134),
@@ -230,11 +231,11 @@ def insert_data():
                        (12, 'Lester Gutierrez', 'M'),
                        (87, 'Ulyssa Yoshida', 'F')]
     cursor.executemany("INSERT INTO Salesman(empId, name, gender) VALUES(?,?,?)", salesmanColumns)
-    airtimePckgColumns = [('3', 'Economy', '2023-01-01', '2025-12-31', 60, 321),
-                          ('1', 'Whole Day', '2022-04-15', '2025-1-1', 120, 823),
-                          ('2', 'Economy', '2022-12-01', '2025-11-31', 60, 567),
-                          ('4', 'Golden Hours', '2020-01-01', '2026-12-31', 180, 356),
-                          ('5', 'Whole Day', '2021-01-01', '2024-12-31', 120, 231)]
+    airtimePckgColumns = [('3', 'economy', '2023-01-01', '2025-12-31', 60, 321),
+                          ('1', 'whole day', '2022-04-15', '2025-1-1', 120, 823),
+                          ('2', 'economy', '2022-12-01', '2025-11-31', 60, 567),
+                          ('4', 'golden hours', '2020-01-01', '2026-12-31', 180, 356),
+                          ('5', 'whole day', '2021-01-01', '2024-12-31', 120, 231)]
     cursor.executemany("INSERT INTO AirtimePackage(packageID, class, startDate, lastDate, frequency, videoCode) VALUES(?,?,?,?,?,?)", airtimePckgColumns)
     admWorkHoursColumns = [(7, '2023-02-14', 8.75),
                            (26, '2022-12-23', 9.75),
@@ -274,31 +275,24 @@ def insert_data():
     cursor.executemany("INSERT INTO Locates(serialNo, siteCode) VALUES(?,?)", locatesColumns)
     conn.commit()
 
-def create_site(conn, site):
-    """
-    Create a new Site
-    :param conn:
-    :param site:
-    :return:
-    """
+def sql_query_one(db_file, street_name):
+    
+    conn = create_connection(db_file)
 
-    sql = ''' INSERT INTO Site(siteCode,type,address,phone)
-              VALUES(?,?,?,?) '''
     cur = conn.cursor()
-    cur.execute(sql, site)
-    conn.commit()
-    return cur.lastrowid
+    cur.execute('SELECT * FROM Site WHERE address LIKE ?',('%{}%'.format(street_name),))
+
+    rows = cur.fetchall()
+
+    for row in rows:
+        print(row)
 
 def main():
     database = r"proj3db.sqlite"
 
     create_project_tables(database)
-    insert_data()
-
-    conn = create_connection(database)
-    with conn:
-        Site_1 = (23, 'bar', '34 N 56th St Phoenix, AZ 85013', '480-555-9623')
-        create_site(conn, Site_1)
+    insert_data(database)
+    sql_query_one(database, 'sahara')
 
 if __name__ == '__main__':
     main()
