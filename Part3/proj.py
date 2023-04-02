@@ -285,7 +285,11 @@ def sql_query_one(db_file, street_name):
     rows = cur.fetchall()
 
     for row in rows:
-        print(row)
+        print("Site Code: ", row[0])
+        print("Type: ", row[1])
+        print("Address: ", row[2])
+        print("Phone Number: ", row[3])
+        print("\n")
 
 def main():
     database = r"proj3db.sqlite"
