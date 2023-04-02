@@ -37,8 +37,7 @@ def create_table(conn, create_table_sql):
     except Error as e:
         print(e)
 
-
-def main():
+def create_project_tables():
     database = r"proj3db.sqlite"
 
     sql_create_Video_table =        """ CREATE TABLE IF NOT EXISTS Video (
@@ -179,6 +178,10 @@ def main():
 
     else:
         print("Error! cannot create the database connection.")
+
+
+def main():
+    create_project_tables()
 
 
 if __name__ == '__main__':
