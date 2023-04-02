@@ -178,12 +178,36 @@ def create_project_tables(db_file):
 
     else:
         print("Error! cannot create the database connection.")
+        
+def insert_data():
+    conn = sqlite3.connect(r"proj3db.sqlite")
+    cursor = conn.cursor()
+    videoColumns = [(567, 92),
+                    (823, 34),
+                    (231, 134),
+                    (356, 21),
+                    (321, 14)]
+    cursor.executemany("INSERT INTO Video(videoCode, videoLength) VALUES(?,?)", videoColumns)
+    modelColumns = [('ABC4K32', 27.90, 15.70, 20.50, 2.84, 32.00),
+                    ('ABC4K40', 34.69, 17.43, 24.30, 3.35, 40.00),
+                    ('ABC4K50', 44.20, 25.60, 29.30, 3.50, 50.00),
+                    ('ABC4K55', 48.80, 28.40, 39.20, 3.89, 55.00),
+                    ('ABC4K60', 53.27, 32.18, 48.23, 4.21, 60.00)]
+    cursor.executemany("INSERT INTO Model(modelNo, width, height, weight, depth, screenSize) VALUES(?,?,?,?,?,?)", modelColumns)
+    siteColumns = [(23, 'Bar', '34 N 56th St Phoenix, AZ 85013', '480-555-9623'),
+                   (14, 'Restaurant', '12543 N Victory Blvd, Van Nuys, CA 91404', '818-555-0945'),
+                   (65, 'Ice Arena', '6523 E. Katella Blvd, Anaheim, CA 92805', '714-555-5423'),
+                   (46, 'Shopping Mall', '876 MacArthur Dr, Tempe, AZ 85284', '480-555-2765'),
+                   (54, 'Casino', '2876 Sahara Blvd, Las Vegas, NV 89127', '702-555-8723' )]
+    cursor.executemany("INSERT INTO Site(siteCode, type, address, phone) VALUES(?,?,?,?)", siteColumns)
+    conn.commit()
 
 
 def main():
     database = r"proj3db.sqlite"
 
     create_project_tables(database)
+    insert_data()
 
 
 if __name__ == '__main__':
