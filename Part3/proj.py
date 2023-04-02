@@ -291,12 +291,34 @@ def sql_query_one(db_file, street_name):
         print("Phone Number: ", row[3])
         print("\n")
 
+def sql_query_two(db_file, scheduler_system):
+    
+    conn = create_connection(db_file)
+    cursor1 = conn.cursor()
+    cursor2 = conn.cursor()
+    cursor3 = conn.cursor()
+
+    cursor1.execute('SELECT serialNo,modelNo FROM DigitalDisplay WHERE schedulerSystem=?',('{}'.format(scheduler_system),))
+    digital_display_rows = cursor1.fetchall()
+    for dd_row in digital_display_rows:
+        print("Serial Number: ", dd_row[0])
+        print("Model Number: ", dd_row[1])
+        cursor2.execute('SELECT empId FROM Specializes WHERE modelNo=?',('{}'.format(dd_row[1]),))        
+        specializes_rows = cursor2.fetchall()
+        for s_row in specializes_rows:
+            cursor3.execute('SELECT name FROM TechnicalSupport WHERE empId=?',('{}'.format(s_row[0]),))
+            ts_rows = cursor3.fetchall()
+            for ts_row in ts_rows: 
+                    print("Technical Support Who Specializes in this model: ", ts_row[0])
+        print("\n")
+
 def main():
     database = r"proj3db.sqlite"
 
     create_project_tables(database)
     insert_data(database)
-    sql_query_one(database, 'sahara')
+    #sql_query_one(database, 'sahara')
+    sql_query_two(database, 'Random')
 
 if __name__ == '__main__':
     main()
