@@ -37,8 +37,8 @@ def create_table(conn, create_table_sql):
     except Error as e:
         print(e)
 
-def create_project_tables():
-    database = r"proj3db.sqlite"
+def create_project_tables(db_file):
+    
 
     sql_create_Video_table =        """ CREATE TABLE IF NOT EXISTS Video (
                                         videoCode       integer PRIMARY KEY NOT NULL,
@@ -141,7 +141,7 @@ def create_project_tables():
                                         FOREIGN KEY     (siteCode)  REFERENCES Site (siteCode)
                                     ); """       
 # create a database connection
-    conn = create_connection(database)
+    conn = create_connection(db_file)
 
     # create tables
     if conn is not None:
@@ -181,7 +181,9 @@ def create_project_tables():
 
 
 def main():
-    create_project_tables()
+    database = r"proj3db.sqlite"
+
+    create_project_tables(database)
 
 
 if __name__ == '__main__':
