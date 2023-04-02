@@ -274,6 +274,20 @@ def insert_data():
     cursor.executemany("INSERT INTO Locates(serialNo, siteCode) VALUES(?,?)", locatesColumns)
     conn.commit()
 
+def create_site(conn, site):
+    """
+    Create a new Site
+    :param conn:
+    :param site:
+    :return:
+    """
+
+    sql = ''' INSERT INTO Site(siteCode,type,address,phone)
+              VALUES(?,?,?,?) '''
+    cur = conn.cursor()
+    cur.execute(sql, site)
+    conn.commit()
+    return cur.lastrowid
 
 def main():
     database = r"proj3db.sqlite"
@@ -281,6 +295,10 @@ def main():
     create_project_tables(database)
     insert_data()
 
+    conn = create_connection(database)
+    with conn:
+        Site_1 = (23, 'bar', '34 N 56th St Phoenix, AZ 85013', '480-555-9623')
+        create_site(conn, Site_1)
 
 if __name__ == '__main__':
     main()
