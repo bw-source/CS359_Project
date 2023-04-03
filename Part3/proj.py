@@ -213,23 +213,23 @@ def insert_data(db_file):
                      (12, 'Laura Hunnisett', '909-555-2765', '1532 Jackrabbit Ln, 92502'),
                      (65, 'Randell Simonson', '480-555-2134', '654 Cactus Flower Dr, 85283')]
     cursor.executemany("INSERT INTO Client(clientId, name, phone, address) VALUES(?,?,?,?)", clientColumns)
-    technicalSupportColumns = [(76, 'Allison Wright', 'F'),
-                               (22, 'Louise Joiner', 'F'),
-                               (89, 'Charnette San Nicolás', 'F'),
-                               (26, 'Arlo White', 'M'),
-                               (78, 'Ivan Alberto', 'M')]
+    technicalSupportColumns = [(76, 'Allison', 'F'),
+                               (22, 'Louise', 'F'),
+                               (89, 'Charnette', 'F'),
+                               (26, 'Arlo', 'M'),
+                               (78, 'Ivan', 'M')]
     cursor.executemany("INSERT INTO TechnicalSupport(empId, name, gender) VALUES(?,?,?)", technicalSupportColumns)
-    administratorColumns = [(7, 'Irene Candelaria', 'F'),
-                            (43, 'Jannette Carter', 'F'),
-                            (11, 'Kailey Trueman', 'F'),
-                            (64, 'Cash Heath', 'M'),
-                            (24, 'Kaden Iñíguez', 'M')]
+    administratorColumns = [(7, 'Irene', 'F'),
+                            (43, 'Jannette', 'F'),
+                            (11, 'Kailey', 'F'),
+                            (64, 'Cash', 'M'),
+                            (24, 'Kaden', 'M')]
     cursor.executemany("INSERT INTO Administrator(empId, name, gender) VALUES(?,?,?)", administratorColumns)
-    salesmanColumns = [(25, 'Frank Castenello', 'M'),
-                       (26, 'Merton Toledano', 'M'),
-                       (98, 'Tooru Ybarra', 'M'),
-                       (12, 'Lester Gutierrez', 'M'),
-                       (87, 'Ulyssa Yoshida', 'F')]
+    salesmanColumns = [(25, 'Frank', 'M'),
+                       (26, 'Merton', 'M'),
+                       (98, 'Tooru', 'M'),
+                       (12, 'Lester', 'M'),
+                       (87, 'Frank', 'F')]
     cursor.executemany("INSERT INTO Salesman(empId, name, gender) VALUES(?,?,?)", salesmanColumns)
     airtimePckgColumns = [('3', 'economy', '2023-01-01', '2025-12-31', 60, 321),
                           ('1', 'whole day', '2022-04-15', '2025-1-1', 120, 823),
@@ -312,13 +312,36 @@ def sql_query_two(db_file, scheduler_system):
                     print("Technical Support Who Specializes in this model: ", ts_row[0])
         print("\n")
 
+def sql_query_three(db_file):
+    
+    conn = create_connection(db_file)
+
+    cursor1 = conn.cursor()
+    cursor2 = conn.cursor()
+    cursor3 = conn.cursor()
+
+    cursor1.execute('SELECT DISTINCT name FROM Salesman')
+
+    name_rows = cursor1.fetchall()
+    print("Name            cnt")
+    print("___________________")
+    for n_row in name_rows:
+       cursor2.execute('SELECT COUNT(name) FROM Salesman WHERE name=?', ('{}'.format(n_row[0]),))
+       count_row = cursor2.fetchone();
+       cursor3.execute('SELECT * FROM Salesman WHERE name=?', ('{}'.format(n_row[0]),))
+       name_rows = cursor3.fetchall()
+       print(n_row[0], "\t\t", count_row[0], name_rows)
+    print("\n")
+
+
 def main():
     database = r"proj3db.sqlite"
 
     create_project_tables(database)
     insert_data(database)
     #sql_query_one(database, 'sahara')
-    sql_query_two(database, 'Random')
+    #sql_query_two(database, 'Random')
+    sql_query_three(database)
 
 if __name__ == '__main__':
     main()
