@@ -5,7 +5,7 @@
 #   Notes:
 #********************************************************************************
 
-import sqlite3
+import sqlite3, sys
 from sqlite3 import Error
 
 
@@ -238,9 +238,9 @@ def insert_data(db_file):
                           ('5', 'whole day', '2021-01-01', '2024-12-31', 120, 231)]
     cursor.executemany("INSERT INTO AirtimePackage(packageID, class, startDate, lastDate, frequency, videoCode) VALUES(?,?,?,?,?,?)", airtimePckgColumns)
     admWorkHoursColumns = [(7, '2023-02-14', 8.75),
-                           (26, '2022-12-23', 9.75),
-                           (87, '2023-12-12', 7.00),
-                           (43, '2022-11-23', 10.25),
+                           (24, '2022-12-23', 9.75),
+                           (64, '2023-12-12', 7.00),
+                           (11, '2022-11-23', 10.25),
                            (11, '2023-03-01', 8.25)]
     cursor.executemany("INSERT INTO AdmWorkHours(empId, day, hours) VALUES(?,?,?)", admWorkHoursColumns)
     broadcastsColumns = [(823, 23),
@@ -256,10 +256,10 @@ def insert_data(db_file):
                           (11, 46)]
     cursor.executemany("INSERT INTO Administers(empId, siteCode) VALUES(?,?)", administersColumns)
     specializesColumns = [(76, 'ABC4K32'),
-                          (22, 'ABC4K32'),
-                          (78, 'ABC4K50'),
-                          (89, 'ABC4K55'),
-                          (26, 'ABC4K50')]
+                          (64, 'ABC4K32'),
+                          (22, 'ABC4K60'),
+                          (26, 'ABC4K60'),
+                          (11, 'ABC4K50')]
     cursor.executemany("INSERT INTO Specializes(empId, modelNo) VALUES(?,?)", specializesColumns)
     purchasesColumns = [(56, 25, 1, 6.25),
                         (51, 25, 4, 7),
@@ -334,14 +334,82 @@ def sql_query_three(db_file):
     print("\n")
 
 
+def sql_query_four(db_file, phone_number):
+    
+    conn = create_connection(db_file)
+
+    cur = conn.cursor()
+    cur.execute('SELECT name FROM Client WHERE phone=?',('{}'.format(phone_number),))
+    rows = cur.fetchall()
+
+    print("Phone Number: ", phone_number)
+    for row in rows:
+        print("Name: ", row[0])
+    print("\n")
+
+def sql_query_five(db_file):
+    
+    conn = create_connection(db_file)
+    cursor1 = conn.cursor()
+    cursor2 = conn.cursor()
+    cursor3 = conn.cursor()
+
+    cursor1.execute('SELECT empId, name FROM Administrator')
+    administrator_rows = cursor1.fetchall()
+    for a_row in administrator_rows:
+        print("Employee ID: ", a_row[0])
+        print("Name: ", a_row[1])
+        cursor2.execute('SELECT SUM(hours) FROM AdmWorkHours WHERE empId=?',('{}'.format(a_row[0]),))
+        hours_row = cursor2.fetchone()
+        print("Hours worked: ", hours_row[0])
+    print("\n")
+    cursor3.execute('SELECT SUM(hours) FROM AdmWorkHours')
+    total_hours_worked = cursor3.fetchone()
+    print("Total Hours Worked: ", total_hours_worked[0])
+
+def sql_query_six(db_file, modelNo):
+    
+    conn = create_connection(db_file)
+    cursor1 = conn.cursor()
+    cursor2 = conn.cursor()
+    cursor3 = conn.cursor()
+
+    cursor1.execute('SELECT empID FROM Specializes WHERE modelNo=?',('{}'.format(modelNo),))
+    specializes_rows = cursor1.fetchall()
+    for s_row in specializes_rows:
+        print("Model Number: ", modelNo)
+        cursor2.execute('SELECT name FROM TechnicalSupport WHERE empId=?',('{}'.format(s_row[0]),))        
+        ts_rows = cursor2.fetchall()
+        for ts_row in ts_rows:
+            print("Technical Support Who Specializes in this model: ", ts_row[0])
+        print("\n")
+
+
+
 def main():
     database = r"proj3db.sqlite"
-
+    arg = sys.argv[1]
+    try:
+        arg2 = sys.argv[2]
+    except:
+        arg2 = ""
     create_project_tables(database)
     insert_data(database)
-    #sql_query_one(database, 'sahara')
-    #sql_query_two(database, 'Random')
-    sql_query_three(database)
+    
+    if arg == "1":
+        sql_query_one(database, arg2)
+    elif arg == "2":
+        sql_query_two(database, arg2)
+    elif arg == "3":
+        sql_query_three(database)
+    elif arg == "4":
+        sql_query_four(database, arg2)
+    elif arg == "5":
+        sql_query_five(database)
+    elif arg == "6":
+        sql_query_six(database, arg2)
+    #sql_query_seven(database)
+    #sql_query_eight(database)
 
 if __name__ == '__main__':
     main()
