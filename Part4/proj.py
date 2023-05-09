@@ -109,7 +109,6 @@ def userTopLevelMenu():
             else:
                 print("Please enter a valid database filename.")
                 input("Press enter to continue.")
-
         elif userInput.upper() == 'Q':
             continue        
         else:
@@ -139,6 +138,27 @@ def userSubLevelMenu(db_conn):
         print("Q. Quit and log out of current database")
 
         userInput = input("? ")
+
+        if (userInput == '1'):
+            display_digital_displays(db_conn)
+        elif (userInput.upper == 'Q'):
+            continue
+        else:
+            print("Please enter a valid input")
+            input("Press enter to continue")
+
+#*******************************************************************************
+#   display_digital_displays(db_conn)
+#   Purpose: Display all digital displays currently in entered database
+#   Param: Database Connection
+#   Return: None
+#********************************************************************************
+
+def display_digital_displays(db_conn):
+
+    clear_screen()
+    input("Press enter to continue")
+
 
 
 def main():
