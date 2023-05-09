@@ -77,14 +77,14 @@ create table Broadcasts(
         FOREIGN KEY(videoCode)  REFERENCES Video(videoCode),
         FOREIGN KEY(siteCode)   REFERENCES Site(siteCode)
 );
-create table Administraters(
+create table Administers(
     empId       int NOT NULL, 
     siteCode    int NOT NULL,
     PRIMARY KEY(empId,siteCode),
     FOREIGN KEY(empId)      REFERENCES Administrator(empId),
     FOREIGN KEY(siteCode)   REFERENCES Site(siteCode)
 );
-create table Speacializes(
+create table Specializes(
     empId   int NOT NULL,
     modelNo char NOT NULL,
     PRIMARY KEY(empId,modelNo),
@@ -95,7 +95,7 @@ create table Purchases(
     clientId    int NOT NULL,
     empId       int NOT NULL,
     packageId   int NOT NULL,
-    commisionRate   numeric(4,2),
+    commissionRate   numeric(4,2),
     CONSTRAINT Pur_trans PRIMARY KEY(clientId,empId,packageId),
     FOREIGN KEY(empId)      REFERENCES Salesman(empId),
     FOREIGN KEY(packageId)  REFERENCES AirtimePackage(packageId)
