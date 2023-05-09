@@ -5,7 +5,7 @@
 #   Notes:
 #********************************************************************************
 
-import sqlite3
+import sqlite3, os
 from sqlite3 import Error
 from os import system, name
 
@@ -53,13 +53,18 @@ def get_db_fileName():
 
 def create_Connection(db_file):
 
-    conn = None
-    try:
-        conn = sqlite3.connect(db_file)
-        return conn
-    except Error as e:
-        print(e)
-    return conn
+    db_conn = None
+    check_file = os.path.isfile(db_file)
+    if check_file:
+        try:
+            db_conn = sqlite3.connect(db_file)
+            return db_conn
+        except Error as e:
+            print(e)
+    else:
+        return None
+
+    return db_conn
 
 #*******************************************************************************
 #   create_Connection(db_file)
@@ -95,6 +100,7 @@ def userTopLevelMenu():
         userInput = input("? ")
     
         if userInput == '1':
+            clear_screen()
             db_fileName = get_db_fileName()
             db_connection = create_Connection(db_fileName)
             if db_connection != None:
@@ -138,6 +144,7 @@ def userSubLevelMenu(db_conn):
 def main():
 
     userTopLevelMenu()
+    clear_screen()
     
 
 if __name__ == '__main__':
