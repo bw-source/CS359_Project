@@ -1,6 +1,6 @@
 create table Video(
     videoCode   int NOT NULL,
-    videoLength int
+    videoLength int,
     PRIMARY KEY(videoCode)
 );
 create table Model(
@@ -17,7 +17,7 @@ create table Site(
     type        varchar(16), 
     address     varchar(100),
     phone       varchar(16),
-    CONSTRAINT site_type CHECK (type = 'bar'or type ='restaurant')
+    CONSTRAINT site_type CHECK (type = 'Bar'or type ='Restaurant')
     PRIMARY KEY(siteCode)
 );
 create table DigitalDisplay(
@@ -60,14 +60,14 @@ create table AirtimePackage(
     lastDate    date,
     frequency   int,
     videoCode   int,
-    CONSTRAINT at_class CHECK (class ='economy'or class='whole day' or class ='golden hours')
+    CONSTRAINT at_class CHECK (class ='Economy'or class='Whole Day' or class ='Golden Hours'),
     PRIMARY KEY(packageId)
 );
 create table AdmWorkHours(
-    empID   int NOT NULL,
+    empId   int NOT NULL,
     day     date NOT NULL,
     hours   numeric(4,2),
-    PRIMARY KEY(empI,day),
+    PRIMARY KEY(empId,day),
     FOREIGN KEY(empId) REFERENCES Administrator(empId)
 );  
 create table Broadcasts(
