@@ -9,12 +9,29 @@ import sqlite3, sys
 from sqlite3 import Error
 
 
-def create_connection(db_file):
-    """ create a database connection to the SQLite database
-        specified by db_file
-    :param db_file: database file
-    :return: Connection object or None
-    """
+#*******************************************************************************
+#   get_fileName()
+#   Purpose: Prompt user for filename of database
+#
+#   Param: None
+#   Return: Filename of database
+#********************************************************************************
+def get_db_fileName():
+
+    db_filename = input("What is the name of the SQLite3 database: ")
+
+    return db_filename
+
+#*******************************************************************************
+#   get_db_fileName()
+#   Purpose: Create a database connection to the SQLite database
+#   Param db_file: database filename
+#   Return: Connection object or None
+#
+#********************************************************************************
+
+def create_Connection(db_file):
+
     conn = None
     try:
         conn = sqlite3.connect(db_file)
@@ -26,8 +43,7 @@ def create_connection(db_file):
 
 def main():
 
-    database = r"proj3db.sqlite"
-    create_project_tables(database)
+    get_db_fileName()
     
 
 if __name__ == '__main__':
