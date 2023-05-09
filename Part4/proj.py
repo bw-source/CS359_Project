@@ -16,6 +16,7 @@ from sqlite3 import Error
 #   Param: None
 #   Return: Filename of database
 #********************************************************************************
+
 def get_db_fileName():
 
     db_filename = input("What is the name of the SQLite3 database: ")
@@ -38,13 +39,27 @@ def create_Connection(db_file):
         return conn
     except Error as e:
         print(e)
-
     return conn
+
+#*******************************************************************************
+#   create_Connection(db_file)
+#   Purpose: Close a database connection
+#   Param db_conn: database connection
+#   Return: None
+#********************************************************************************
+
+def close_connection(db_conn):
+
+    try:
+        db_conn.close()
+    except Error as e:
+        print(e)
 
 def main():
 
-    get_db_fileName()
-    
+    db_fileName = get_db_fileName()
+    db_connection = create_Connection(db_fileName)
+    close_connection(db_connection)
 
 if __name__ == '__main__':
     main()
