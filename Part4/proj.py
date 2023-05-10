@@ -157,6 +157,21 @@ def userSubLevelMenu(db_conn):
 def display_digital_displays(db_conn):
 
     clear_screen()
+
+    cursor1 = db_conn.cursor()
+    cursor1.execute('SELECT * FROM DigitalDisplay')
+    digitalDisplay_rows = cursor1.fetchall()
+    
+    
+    print("*************************************************************************")
+    print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
+    print(f"*{'Serial Number:' : ^23}*{'Scheduler System:' : ^23}*{'Model Number:' : ^23}*")
+    print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
+    print("*************************************************************************")
+    for row in digitalDisplay_rows:
+        print(f"*{row[0] : ^23}*{row[1] : ^23}*{row[2] : ^23}*")
+        print("*************************************************************************")
+
     input("Press enter to continue")
 
 
