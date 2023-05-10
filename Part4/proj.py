@@ -110,7 +110,7 @@ def userTopLevelMenu():
                 print("Please enter a valid database filename.")
                 input("Press enter to continue.")
         elif userInput.upper() == 'Q':
-            continue        
+            return        
         else:
             print("Please enter valid input.")
             input("Press enter to continue.")
@@ -141,14 +141,14 @@ def userSubLevelMenu(db_conn):
 
         if (userInput == '1'):
             display_digital_displays(db_conn)
-        if (userInput == '2'):
+        elif (userInput == '2'):
             search_by_scheduler_system(db_conn)
-        if (userInput == '3'):
+        elif (userInput == '3'):
             return_state = '1'
             while (return_state != '0'):
                 return_state = insert_new_digital_display(db_conn)
-        elif (userInput.upper == 'Q'):
-            continue
+        elif (userInput.upper() == 'Q'):
+            return
         else:
             print("Please enter a valid input")
             input("Press enter to continue")
@@ -336,7 +336,7 @@ def insert_new_digital_display(db_conn):
     cursor1.execute("INSERT INTO DigitalDisplay(serialNo, schedulerSystem, modelNo) VALUES(?,?,?)", new_digital_display)
     db_conn.commit()
 
-    return 0
+    return '0'
 
 
 def main():
