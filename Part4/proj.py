@@ -39,6 +39,12 @@ def clear_screen():
 
 def get_db_fileName():
 
+    print("*************************************************************************")
+    print(f"*{'*' : >72}")
+    print(f"*{'Digital Display Database Interface System' : ^71}*")
+    print(f"*{'*' : >72}")
+    print("*************************************************************************")
+
     db_filename = input("What is the filename of the Digital Display Database: ")
 
     return db_filename
@@ -95,6 +101,13 @@ def userTopLevelMenu():
 
     while (userInput.upper() != 'Q'):
         clear_screen()
+
+        print("*************************************************************************")
+        print(f"*{'*' : >72}")
+        print(f"*{'Digital Display Database Interface System' : ^71}*")
+        print(f"*{'*' : >72}")
+        print("*************************************************************************")
+
         print("1.  Log into Digital Display Database System")
         print("Q.  Quit the program")
         userInput = input("? ")
@@ -130,6 +143,11 @@ def userSubLevelMenu(db_conn):
 
     while (userInput.upper() != 'Q'):
         clear_screen()
+        print("*************************************************************************")
+        print(f"*{'*' : >72}")
+        print(f"*{'Digital Display Database Interface System' : ^71}*")
+        print(f"*{'*' : >72}")
+        print("*************************************************************************")
         print("1. Display all the digital displays")
         print("2. Search digital displays")
         print("3. Add a new digital display")
@@ -173,7 +191,10 @@ def display_digital_displays(db_conn):
     cursor1.execute('SELECT * FROM DigitalDisplay')
     digitalDisplay_rows = cursor1.fetchall()
     
-    
+    print("*************************************************************************")
+    print(f"*{'*' : >72}")
+    print(f"*{'Digital Display Database' : ^71}*")
+    print(f"*{'*' : >72}")
     print("*************************************************************************")
     print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
     print(f"*{'Serial Number:' : ^23}*{'Scheduler System:' : ^23}*{'Model Number:' : ^23}*")
@@ -195,30 +216,43 @@ def display_digital_displays(db_conn):
 
 def search_by_scheduler_system(db_conn):
 
-    clear_screen()
     cursor1 = db_conn.cursor()
+    user_input = ''
 
-    print("Please select the scheduler system you with to search for:")
-    print("1: Random")
-    print("2: Smart")
-    print("3: Virtue") 
-    user_input = input("? ")
+    while (user_input == ''):
+        clear_screen()
+        print("*************************************************************************")
+        print(f"*{'*' : >72}")
+        print(f"*{'Digital Display Database Interface System' : ^71}*")
+        print(f"*{'*' : >72}")
+        print("*************************************************************************")
+        print("Please select the scheduler system you with to search for:")
+        print("1: Random")
+        print("2: Smart")
+        print("3: Virtue") 
+        user_input = input("? ")
 
-    if (user_input == '1'):
-        scheduler = 'Random'
-    elif (user_input == '2'):
-        scheduler = 'Smart'
-    elif (user_input == '3'):
-        scheduler = 'Virtue'
-    else:
-        print("Invalid entry.")
-        input("Press enter to continue")
-        return
+    
+        if (user_input == '1'):
+            scheduler = 'Random'
+        elif (user_input == '2'):
+            scheduler = 'Smart'
+        elif (user_input == '3'):
+            scheduler = 'Virtue'
+        else:
+            print("Invalid entry.")
+            input("Press enter to continue")
+            user_input = ''
 
     cursor1.execute('SELECT * FROM DigitalDisplay WHERE schedulerSystem=?',('{}'.format(scheduler),))
     digitalDisplay_rows = cursor1.fetchall()
+    clear_screen()
     
-    
+    print("*************************************************************************")
+    print(f"*{'*' : >72}")
+    print(f"*{'Digital Display Database Interface System' : ^71}*")
+    print(f"*{'*' : >72}")
+    print("*************************************************************************")
     print("*************************************************************************")
     print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
     print(f"*{'Serial Number:' : ^23}*{'Scheduler System:' : ^23}*{'Model Number:' : ^23}*")
@@ -383,7 +417,6 @@ def delete_digital_display(db_conn):
     clear_screen()
     display_digital_displays(db_conn)
 
-    input("Press enter to continue")
 
 
 #*******************************************************************************
