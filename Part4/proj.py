@@ -141,6 +141,8 @@ def userSubLevelMenu(db_conn):
 
         if (userInput == '1'):
             display_digital_displays(db_conn)
+        if (userInput == '2'):
+            search_by_scheduler_system(db_conn)
         elif (userInput.upper == 'Q'):
             continue
         else:
@@ -174,6 +176,49 @@ def display_digital_displays(db_conn):
 
     input("Press enter to continue")
 
+#*******************************************************************************
+#   search_by_scheduler_system(db_conn)
+#   Purpose: Display all digital displays currently in entered database
+#   Param: Database Connection
+#   Return: None
+#********************************************************************************
+
+def search_by_scheduler_system(db_conn):
+
+    clear_screen()
+    cursor1 = db_conn.cursor()
+
+    print("Please select the scheduler system you with to search for:")
+    print("1: Random")
+    print("2: Smart")
+    print("3: Virtue") 
+    user_input = input("? ")
+
+    if (user_input == '1'):
+        scheduler = 'Random'
+    elif (user_input == '2'):
+        scheduler = 'Smart'
+    elif (user_input == '3'):
+        scheduler = 'Virtue'
+    else:
+        print("Invalid entry.")
+        input("Press enter to continue")
+        return
+
+    cursor1.execute('SELECT * FROM DigitalDisplay WHERE schedulerSystem=?',('{}'.format(scheduler),))
+    digitalDisplay_rows = cursor1.fetchall()
+    
+    
+    print("*************************************************************************")
+    print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
+    print(f"*{'Serial Number:' : ^23}*{'Scheduler System:' : ^23}*{'Model Number:' : ^23}*")
+    print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
+    print("*************************************************************************")
+    for row in digitalDisplay_rows:
+        print(f"*{row[0] : ^23}*{row[1] : ^23}*{row[2] : ^23}*")
+        print("*************************************************************************")
+
+    input("Press enter to continue")
 
 
 def main():
