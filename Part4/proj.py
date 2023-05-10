@@ -147,6 +147,11 @@ def userSubLevelMenu(db_conn):
             return_state = '1'
             while (return_state != '0'):
                 return_state = insert_new_digital_display(db_conn)
+        elif (userInput == '4'):
+            update_digital_display(db_conn)
+        elif (userInput == '5'):
+            delete_digital_display(db_conn)
+
         elif (userInput.upper() == 'Q'):
             return
         else:
@@ -227,9 +232,9 @@ def search_by_scheduler_system(db_conn):
 
 #*******************************************************************************
 #   insert_new_digital_display(db_conn)
-#   Purpose: Display all digital displays currently in entered database
+#   Purpose: Insert new digital display in entered database
 #   Param: Database Connection
-#   Return: None
+#   Return: Return state
 #********************************************************************************
 
 def insert_new_digital_display(db_conn):
@@ -336,8 +341,68 @@ def insert_new_digital_display(db_conn):
     cursor1.execute("INSERT INTO DigitalDisplay(serialNo, schedulerSystem, modelNo) VALUES(?,?,?)", new_digital_display)
     db_conn.commit()
 
+    display_digital_displays(db_conn)
+
     return '0'
 
+#*******************************************************************************
+#   delete_digital_display(db_conn)
+#   Purpose: Delete digital display in entered database
+#   Param: Database Connection
+#   Return: Return state
+#********************************************************************************
+
+def delete_digital_display(db_conn):
+    
+    cursor1 = db_conn.cursor()
+    delete_display = 'DELETE FROM DigitalDisplay WHERE serialNo=?'
+
+    clear_screen()
+
+    cursor1.execute('SELECT * FROM DigitalDisplay')
+    digitalDisplay_rows = cursor1.fetchall()
+    
+    
+    print("*************************************************************************")
+    print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
+    print(f"*{'Serial Number:' : ^23}*{'Scheduler System:' : ^23}*{'Model Number:' : ^23}*")
+    print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
+    print("*************************************************************************")
+    for row in digitalDisplay_rows:
+        print(f"*{row[0] : ^23}*{row[1] : ^23}*{row[2] : ^23}*")
+        print("*************************************************************************")
+
+    print("Enter the serial number of the digital display you want to delete.")
+    serial_number = input("? ")    
+
+    
+
+    cursor1.execute(delete_display, (serial_number,))
+    db_conn.commit()
+
+    clear_screen()
+    display_digital_displays(db_conn)
+
+    input("Press enter to continue")
+
+
+#*******************************************************************************
+#   delete_digital_display(db_conn)
+#   Purpose: Delete digital display in entered database
+#   Param: Database Connection
+#   Return: Return state
+#********************************************************************************
+
+def update_digital_display(db_conn):
+
+    clear_screen()
+
+    input("Please press enter.")
+
+
+#*******************************************************************************
+#   main()
+#********************************************************************************
 
 def main():
 
