@@ -437,10 +437,10 @@ def delete_digital_display(db_conn):
 
 
 #*******************************************************************************
-#   delete_digital_display(db_conn)
-#   Purpose: Delete digital display in entered database
+#   update_digital_display(db_conn)
+#   Purpose: Update digital display field values in entered database
 #   Param: Database Connection
-#   Return: Return state
+#   Return: None
 #********************************************************************************
 
 def update_digital_display(db_conn):
@@ -597,7 +597,6 @@ def update_digital_display(db_conn):
                 print("Please enter a valid entry.")
                 input("Press enter to continue.")
         elif (update_field == 'Model Number'): 
-            
             print()
             print("What would you like the new value for " + update_field + " to be?")
             new_model_number = input("? ")
