@@ -225,6 +225,7 @@ def search_by_scheduler_system(db_conn):
         print(f"*{'*' : >72}")
         print(f"*{'Digital Display Database Interface System' : ^71}*")
         print(f"*{'*' : >72}")
+        print("*************************************************************************")
         print("Please select the scheduler system you with to search for:")
         print("1: Random")
         print("2: Smart")
@@ -444,6 +445,10 @@ def delete_digital_display(db_conn):
 
 def update_digital_display(db_conn):
 
+    cursor1 = db_conn.cursor()
+    cursor1.execute('SELECT * FROM DigitalDisplay')
+    digitalDisplay_rows = cursor1.fetchall()
+
     clear_screen()
      
     print("*************************************************************************")
@@ -461,8 +466,173 @@ def update_digital_display(db_conn):
 
     print("Enter the serial number of the digital display you want to update.")
     serial_number = input("? ")    
+    cursor1.execute('SELECT * FROM DigitalDisplay WHERE serialNo=?',('{}'.format(serial_number),))
+    digitalDisplay_rows = cursor1.fetchall()
 
-    input("Please press enter.")
+    user_input = ''
+
+    while (user_input == ''):
+        clear_screen()
+        print("*************************************************************************")
+        print(f"*{'*' : >72}")
+        print(f"*{'Digital Display Database Interface System' : ^71}*")
+        print(f"*{'*' : >72}")
+        print("*************************************************************************")
+        print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
+        print(f"*{'Serial Number:' : ^23}*{'Scheduler System:' : ^23}*{'Model Number:' : ^23}*")
+        print(f"*{'*' : >24}{'*' : >24}{'*' : >24}")
+        print("*************************************************************************")
+        for row in digitalDisplay_rows:
+            print(f"*{row[0] : ^23}*{row[1] : ^23}*{row[2] : ^23}*")
+            print("*************************************************************************")
+
+        print("Please select what you would like to update")
+        print("1: Serial Number")
+        print("2: Scheduler System")
+        print("3: Model Number")
+        print("Q: Cancel editing and return to menu") 
+        user_input = input("? ")
+
+        if (user_input == '1'):
+            update_field = 'Serial Number'
+        elif (user_input == '2'):
+            update_field = 'Scheduler System'
+        elif (user_input == '3'):
+            update_field = 'Model Number'
+        elif (user_input.upper() == 'Q'):
+            return
+        else:
+            print("Invalid entry.")
+            input("Press enter to continue")
+            user_input = ''
+
+    user_input = ''
+
+    while (user_input == ''):
+        clear_screen()
+        print("*************************************************************************")
+        print(f"*{'*' : >72}")
+        print(f"*{'Digital Display Database Interface System' : ^71}*")
+        print(f"*{'*' : >72}")
+        print("*************************************************************************")
+
+        if (update_field == 'Serial Number'): 
+            
+            print()
+            print("What would you like the new value for " + update_field + " to be?")
+            new_serial_number = input("? ")
+                    
+            if (len(new_serial_number) != 10):
+                print("Please enter a ten character serial number.")
+                input("Press enter to continue.")
+            else:
+                clear_screen()
+                print("*************************************************************************")
+                print(f"*{'*' : >72}")
+                print(f"*{'Digital Display Database Interface System' : ^71}*")
+                print(f"*{'*' : >72}")
+                print("*************************************************************************")
+                print()
+                print("Is the value " + new_serial_number + " for the field " + update_field + " okay?") 
+                
+                print("Y: Press Y to continue.")
+                print("N: Press N to reenter the serial number.")
+                print("Q: Press Q to quit and return to the menu")
+                user_input = input("? ")
+                
+                if (user_input.upper() == 'Y'):
+                     sql = ''' UPDATE DigitalDisplay
+                               SET serialNo = ? 
+                               WHERE serialNo = ?'''
+                     cursor1.execute(sql, (new_serial_number, serial_number))
+                     db_conn.commit()
+                     display_digital_displays(db_conn)     
+                elif (user_input.upper() == 'N'):
+                    user_input = ''
+                elif (user_input.upper() == 'Q'):
+                    return
+                else:
+                    print("Please enter a valid entry.")
+                    input("Press enter to continue.")
+       
+        elif (update_field == 'Scheduler System'): 
+            print("Please select the digital display's scheduler system:")
+            print()
+            print("1: Random")
+            print("2: Smart")
+            print("3: Virtue") 
+            user_input = input("? ")
+
+            if (user_input == '1'):
+                scheduler = 'Random'
+            elif (user_input == '2'):
+                scheduler = 'Smart'
+            elif (user_input == '3'):
+                scheduler = 'Virtue'
+            else:
+                print("Please enter a valid entry.")
+                input("Press enter to continue.")
+                user_input = ''
+                continue
+            
+            print("Is the value " + scheduler + " for the field " + update_field + " okay?") 
+            print("Y: Press Y to continue.")
+            print("N: Press N to choose again.")
+            print("Q: Press Q to quit and return to the menu")
+
+            user_input = input("? ")
+            
+            if (user_input.upper() == 'Y'):              
+                sql = ''' UPDATE DigitalDisplay
+                          SET schedulerSystem = ? 
+                          WHERE serialNo = ?'''
+                cursor1.execute(sql, (scheduler, serial_number))
+                db_conn.commit()
+                display_digital_displays(db_conn)                
+            elif (user_input.upper() == 'N'):
+                user_input = ''
+            elif (user_input.upper() == 'Q'):
+                return
+            else:
+                print("Please enter a valid entry.")
+                input("Press enter to continue.")
+        elif (update_field == 'Model Number'): 
+            
+            print()
+            print("What would you like the new value for " + update_field + " to be?")
+            new_model_number = input("? ")
+                    
+            if (len(new_model_number) == 0):
+                print("Please enter a valid model number.")
+                input("Press enter to continue.")
+            else:
+                print("Is the value " + new_model_number + " for the field " + update_field + " okay?") 
+                print("Y: Press Y to continue.")
+                print("N: Press N to reenter the model number.")
+                print("Q: Press Q to quit and return to the menu")
+                user_input = input("? ")
+                
+                if (user_input.upper() == 'Y'):
+                    sql = '''  UPDATE DigitalDisplay
+                               SET modelNo = ? 
+                               WHERE serialNo = ?'''
+                    cursor1.execute(sql, (new_model_number, serial_number))
+                    db_conn.commit()
+                    display_digital_displays(db_conn)    
+                elif (user_input.upper() == 'N'):
+                    user_input = ''
+                elif (user_input.upper() == 'Q'):
+                    return
+                else:
+                    print("Please enter a valid entry.")
+                    input("Press enter to continue.")
+
+
+
+
+
+
+
 
 
 #*******************************************************************************
