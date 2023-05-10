@@ -143,6 +143,10 @@ def userSubLevelMenu(db_conn):
             display_digital_displays(db_conn)
         if (userInput == '2'):
             search_by_scheduler_system(db_conn)
+        if (userInput == '3'):
+            return_state = '1'
+            while (return_state != '0'):
+                return_state = insert_new_digital_display(db_conn)
         elif (userInput.upper == 'Q'):
             continue
         else:
@@ -179,6 +183,7 @@ def display_digital_displays(db_conn):
 #*******************************************************************************
 #   search_by_scheduler_system(db_conn)
 #   Purpose: Display all digital displays currently in entered database
+#            that have selected scheduler system
 #   Param: Database Connection
 #   Return: None
 #********************************************************************************
@@ -219,6 +224,119 @@ def search_by_scheduler_system(db_conn):
         print("*************************************************************************")
 
     input("Press enter to continue")
+
+#*******************************************************************************
+#   insert_new_digital_display(db_conn)
+#   Purpose: Display all digital displays currently in entered database
+#   Param: Database Connection
+#   Return: None
+#********************************************************************************
+
+def insert_new_digital_display(db_conn):
+
+    serial_number = ''
+
+    while (len(serial_number) != 10):
+        clear_screen()
+
+        print("****************************************************")
+        print(f"*{'*' : >51}")
+        print(f"*{'New Digital Display Insertion' : ^50}*")
+        print(f"*{'*' : >51}")
+        print("****************************************************")
+        print()
+        print("Please enter the digital display's serial number:")
+        serial_number = input("?")
+        if (len(serial_number) != 10):
+            print("Please enter a ten character serial number.")
+            input("Press enter to continue.")
+
+    user_input = ''
+
+    while ((user_input != '1') and (user_input != '2') and (user_input != '3')):
+        clear_screen()
+        print("****************************************************")
+        print(f"*{'*' : >51}")
+        print(f"*{'New Digital Display Insertion' : ^50}*")
+        print(f"*{'*' : >51}")
+        print(f"* {'Serial number: ' + serial_number : <49}*")
+        print(f"*{'*' : >51}")
+        print("****************************************************")
+
+        print()
+        print("Please select the digital display's scheduler system:")
+        print()
+        print("1: Random")
+        print("2: Smart")
+        print("3: Virtue") 
+        user_input = input("? ")
+
+        if (user_input == '1'):
+            scheduler = 'Random'
+        elif (user_input == '2'):
+            scheduler = 'Smart'
+        elif (user_input == '3'):
+            scheduler = 'Virtue'
+        else:
+            print("Please enter a valid entry.")
+            input("Press enter to continue.")
+
+    model_number = ''
+    while (len(model_number) == 0):
+        clear_screen()
+
+        print("****************************************************")
+        print(f"*{'*' : >51}")
+        print(f"*{'New Digital Display Insertion' : ^50}*")
+        print(f"*{'*' : >51}")
+        print(f"* {'Serial number: ' + serial_number : <49}*")
+        print(f"* {'Scheduler systen: ' + scheduler : <49}*")
+        print(f"*{'*' : >51}")
+        print("****************************************************")
+
+        print()
+        print("Please enter the model number of the digital display: ")
+        model_number = input("? ")
+
+        if (len(model_number) == 0):
+            print("Please enter a valid entry.")
+            input("Press enter to continue.")
+
+
+    user_continue = ''
+    while (user_continue.upper() != 'Y') and (user_continue.upper() != 'N'):
+        clear_screen()
+        print("****************************************************")
+        print(f"*{'*' : >51}")
+        print(f"*{'New Digital Display Insertion' : ^50}*")
+        print(f"*{'*' : >51}")
+        print(f"* {'Serial number: ' + serial_number : <49}*")
+        print(f"* {'Scheduler systen: ' + scheduler : <49}*")
+        print(f"* {'Model number: ' + model_number : <49}*")
+        print(f"*{'*' : >51}")
+        print("****************************************************")
+
+        print()
+        print("Is this okay?")
+        print("Y: Press Y to continue.")
+        print("N: Press N to start over.")
+        user_continue = input("? ")
+
+        if (user_continue.upper() == 'Y'):
+            break
+        elif (user_continue.upper() == 'N'):
+            return '1'
+        else:
+            print("Please enter a valid entry.")
+            input("Press enter to continue.")
+
+    cursor1 = db_conn.cursor()
+
+    new_digital_display = [(serial_number),(scheduler),(model_number)]
+    cursor1.execute("INSERT INTO DigitalDisplay(serialNo, schedulerSystem, modelNo) VALUES(?,?,?)", new_digital_display)
+    db_conn.commit()
+
+    return 0
 
 
 def main():
